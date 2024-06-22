@@ -1,6 +1,6 @@
 {
     "name": "@green-code-studio/context-menu",
-    "version": "0.1.1",
+    "version": "1.0.0",
     "main": "src/index.js",
     "author": "Mateusz Krawczyk",
     "license": "MIT",
