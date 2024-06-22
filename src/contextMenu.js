@@ -1,3 +1,5 @@
+import {create} from "fast-creator";
+
 export class ContextMenu {
     constructor(elements, parent = null) {
         this.generateHtml(elements);
@@ -6,7 +8,7 @@ export class ContextMenu {
     }
 
     generateHtml(elements) {
-        this.html = document.create('ul.contextMenu');
+        this.html = create('ul.contextMenu');
         for (const element of elements) {
             this.html.append(this.generateElementHtml(element));
         }
@@ -14,14 +16,14 @@ export class ContextMenu {
     }
 
     generateElementHtml(element) {
-        const elementHtml = document.create('li.element', {tabIndex: 0});
+        const elementHtml = create('li.element', {tabIndex: 0});
         if (element.submenu) {
             elementHtml.classList.add('hasSubmenu');
         }
         if (element.icon)
-            elementHtml.addChild('span.icon', {className: element.icon});
+            elementHtml.append(create('span.icon', {className: element.icon}));
         else
-            elementHtml.addChild('span.iconPlaceholder');
+            elementHtml.append(create('span.iconPlaceholder'));
 
         elementHtml.addChild('span.content', {text: element.text || ''});
         if (element.onclick) {
