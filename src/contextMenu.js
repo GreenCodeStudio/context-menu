@@ -26,6 +26,9 @@ export class ContextMenu {
             elementHtml.append(create('span.iconPlaceholder'));
 
         elementHtml.append(create('span.content', {text: element.text || ''}));
+        if(element.href){
+            elementHtml.append(create('a', {href: element.href, target: '_blank', className: 'linkNewTab'}));
+        }
         if (element.onclick) {
             elementHtml.onclick = e => {
                 element.onclick.call(elementHtml, e);
