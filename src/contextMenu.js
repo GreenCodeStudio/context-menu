@@ -25,7 +25,7 @@ export class ContextMenu {
         else
             elementHtml.append(create('span.iconPlaceholder'));
 
-        elementHtml.addChild('span.content', {text: element.text || ''});
+        elementHtml.append(create('span.content', {text: element.text || ''}));
         if (element.onclick) {
             elementHtml.onclick = e => {
                 element.onclick.call(elementHtml, e);
