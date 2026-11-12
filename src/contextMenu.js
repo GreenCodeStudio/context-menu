@@ -17,17 +17,37 @@ export class ContextMenu {
 
     generateElementHtml(element) {
         const elementHtml = create('li.element', {tabIndex: 0});
+        const link = create('a', {href: element.href ?? null});
         if (element.submenu) {
             elementHtml.classList.add('hasSubmenu');
         }
         if (element.icon)
-            elementHtml.append(create('span.icon', {className: element.icon}));
+            link.append(create('span.icon', {className: element.icon}));
         else
-            elementHtml.append(create('span.iconPlaceholder'));
+            link.append(create('span.iconPlaceholder'));
 
-        elementHtml.append(create('span.content', {text: element.text || ''}));
-        if(element.href){
+        link.append(create('span.content', {text: element.text || ''}));
+        elementHtml.append(link);
+        if (element.href) {
             elementHtml.append(create('a', {href: element.href, target: '_blank', className: 'linkNewTab'}));
+            elementHtml.onkeydown = e => {
+                if (e.key == 'Enter') {
+                    if (e.ctrlKey && e.shiftKey) {
+                        //nothing
+                    } else if (e.ctrlKey) {
+                        window.open(element.href, '_blank');
+                    } else if (e.shiftKey) {
+                        window.open(element.href, '_blank', 'left=0,top=0');
+                    } else {
+                        document.location = element.href;
+                    }
+                    this.destroy()
+                } else if (e.key == 'ArrowDown') {
+                    (elementHtml.nextElementSibling ?? elementHtml.parentNode.firstElementChild).focus();
+                } else if (e.key == 'ArrowUp') {
+                    (elementHtml.previousElementSibling ?? elementHtml.parentNode.lastElementChild).focus();
+                }
+            };
         }
         if (element.onclick) {
             elementHtml.onclick = e => {
